@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="material_calendar_monday">S</string>
-    <string name="material_calendar_tuesday">T</string>
-    <string name="material_calendar_wednesday">Q</string>
-    <string name="material_calendar_thursday">Q</string>
-    <string name="material_calendar_friday">S</string>
-    <string name="material_calendar_saturday">S</string>
-    <string name="material_calendar_sunday">D</string>
+    <string name="material_calendar_monday">Seg</string>
+    <string name="material_calendar_tuesday">Ter</string>
+    <string name="material_calendar_wednesday">Qua</string>
+    <string name="material_calendar_thursday">Qui</string>
+    <string name="material_calendar_friday">Sex</string>
+    <string name="material_calendar_saturday">Sáb</string>
+    <string name="material_calendar_sunday">Dom</string>
 
     <array name="material_calendar_day_abbreviations_array">
         <item>@string/material_calendar_sunday</item>

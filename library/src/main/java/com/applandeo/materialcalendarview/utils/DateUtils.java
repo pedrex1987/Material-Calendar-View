@@ -1,6 +1,9 @@
 package com.applandeo.materialcalendarview.utils;
 
 import android.content.Context;
+import android.text.Spanned;
+
+import androidx.core.text.HtmlCompat;
 
 import com.annimon.stream.Stream;
 import com.applandeo.materialcalendarview.R;
@@ -96,6 +99,12 @@ public class DateUtils {
         return String.format("%s  %s",
                 context.getResources().getStringArray(R.array.material_calendar_months_array)[calendar.get(Calendar.MONTH)],
                 calendar.get(Calendar.YEAR));
+    }
+
+    public static Spanned getMonthAndYearDateSpannable(Context context, Calendar calendar) {
+        return HtmlCompat.fromHtml(String.format("<b>%s</b>  %s",
+                context.getResources().getStringArray(R.array.material_calendar_months_array)[calendar.get(Calendar.MONTH)],
+                calendar.get(Calendar.YEAR)), HtmlCompat.FROM_HTML_MODE_LEGACY);
     }
 
     /**

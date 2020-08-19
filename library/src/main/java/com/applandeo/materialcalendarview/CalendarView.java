@@ -3,13 +3,14 @@ package com.applandeo.materialcalendarview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.ColorRes;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorRes;
+import androidx.viewpager.widget.ViewPager;
 
 import com.annimon.stream.Stream;
 import com.applandeo.materialcalendarview.adapters.CalendarPageAdapter;
@@ -61,8 +62,8 @@ public class CalendarView extends LinearLayout {
     private Context mContext;
     private CalendarPageAdapter mCalendarPageAdapter;
 
-    private ImageButton mForwardButton;
-    private ImageButton mPreviousButton;
+    private Button mForwardButton;
+    private Button mPreviousButton;
     private TextView mCurrentMonthLabel;
     private int mCurrentPage;
     private CalendarViewPager mViewPager;
@@ -177,6 +178,9 @@ public class CalendarView extends LinearLayout {
         boolean swipeEnabled = typedArray.getBoolean(R.styleable.CalendarView_swipeEnabled, true);
         mCalendarProperties.setSwipeEnabled(swipeEnabled);
 
+        boolean minimumDayIsToday = typedArray.getBoolean(R.styleable.CalendarView_minimumDayIsToday, false);
+        mCalendarProperties.setMinimumDayIsToday(minimumDayIsToday);
+
         Drawable previousButtonSrc = typedArray.getDrawable(R.styleable.CalendarView_previousButtonSrc);
         mCalendarProperties.setPreviousButtonSrc(previousButtonSrc);
 
@@ -185,6 +189,12 @@ public class CalendarView extends LinearLayout {
     }
 
     private void initAttributes() {
+        if (mCalendarProperties.isMinimumDayIsToday()) {
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.add(Calendar.DATE, -1);
+            mCalendarProperties.setMinimumDate(yesterday);
+        }
+
         AppearanceUtils.setHeaderColor(getRootView(), mCalendarProperties.getHeaderColor());
 
         AppearanceUtils.setHeaderVisibility(getRootView(), mCalendarProperties.getHeaderVisibility());
@@ -251,10 +261,10 @@ public class CalendarView extends LinearLayout {
     }
 
     private void initUiElements() {
-        mForwardButton = (ImageButton) findViewById(R.id.forwardButton);
+        mForwardButton = (Button) findViewById(R.id.forwardButton);
         mForwardButton.setOnClickListener(onNextClickListener);
 
-        mPreviousButton = (ImageButton) findViewById(R.id.previousButton);
+        mPreviousButton = (Button) findViewById(R.id.previousButton);
         mPreviousButton.setOnClickListener(onPreviousClickListener);
 
         mCurrentMonthLabel = (TextView) findViewById(R.id.currentDateLabel);
@@ -339,7 +349,7 @@ public class CalendarView extends LinearLayout {
     }
 
     private void setHeaderName(Calendar calendar, int position) {
-        mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDate(mContext, calendar));
+        mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDateSpannable(mContext, calendar));
         callOnPageChangeListeners(position);
     }
 
@@ -380,7 +390,7 @@ public class CalendarView extends LinearLayout {
 
         setUpCalendarPosition(date);
 
-        mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDate(mContext, date));
+        mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDateSpannable(mContext, date));
         mCalendarPageAdapter.notifyDataSetChanged();
     }
 
@@ -487,5 +497,9 @@ public class CalendarView extends LinearLayout {
     public void setSwipeEnabled(boolean swipeEnabled) {
         mCalendarProperties.setSwipeEnabled(swipeEnabled);
         mViewPager.setSwipeEnabled(mCalendarProperties.getSwipeEnabled());
+    }
+
+    public Calendar getMinimumDate() {
+        return mCalendarProperties.getMinimumDate();
     }
 }

@@ -27,6 +27,11 @@ public class OneDayPickerActivity extends AppCompatActivity {
         Calendar min = Calendar.getInstance();
         min.add(Calendar.DAY_OF_MONTH, -2);
 
+        Calendar defaultMinDate = calendarView.getMinimumDate();
+        if (defaultMinDate != null) {
+            min = defaultMinDate;
+        }
+
         Calendar max = Calendar.getInstance();
         max.add(Calendar.DAY_OF_MONTH, 2);
 

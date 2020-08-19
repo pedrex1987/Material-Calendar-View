@@ -54,6 +54,11 @@ public class CalendarActivity extends AppCompatActivity {
         Calendar min = Calendar.getInstance();
         min.add(Calendar.MONTH, -2);
 
+        Calendar defaultMinDate = calendarView.getMinimumDate();
+        if (defaultMinDate != null) {
+            min = defaultMinDate;
+        }
+
         Calendar max = Calendar.getInstance();
         max.add(Calendar.MONTH, 2);
 

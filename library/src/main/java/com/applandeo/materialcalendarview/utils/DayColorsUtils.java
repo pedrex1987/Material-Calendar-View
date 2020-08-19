@@ -1,6 +1,7 @@
 package com.applandeo.materialcalendarview.utils;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.widget.TextView;
 
 import com.applandeo.materialcalendarview.R;
@@ -32,6 +33,9 @@ public class DayColorsUtils {
         textView.setTypeface(null, typeface);
         textView.setTextColor(textColor);
         textView.setBackgroundResource(background);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            textView.setElevation(20f);
+        }
     }
 
     /**

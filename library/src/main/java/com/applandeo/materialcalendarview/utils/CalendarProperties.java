@@ -41,6 +41,7 @@ public class CalendarProperties {
 
     private boolean mEventsEnabled;
     private boolean mSwipeEnabled;
+    private boolean mMinimumDayIsToday;
 
     private Drawable mPreviousButtonSrc, mForwardButtonSrc;
 
@@ -82,6 +83,14 @@ public class CalendarProperties {
 
     public boolean getSwipeEnabled() {
         return mSwipeEnabled;
+    }
+
+    public void setMinimumDayIsToday(boolean mMinimumDayIsToday) {
+        this.mMinimumDayIsToday = mMinimumDayIsToday;
+    }
+
+    public boolean isMinimumDayIsToday() {
+        return mMinimumDayIsToday;
     }
 
     public void setSwipeEnabled(boolean swipeEnabled) {

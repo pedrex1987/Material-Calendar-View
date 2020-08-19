@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -82,7 +83,7 @@ public final class AppearanceUtils {
             return;
         }
 
-        ((ImageButton) view.findViewById(R.id.previousButton)).setImageDrawable(drawable);
+        ((Button) view.findViewById(R.id.previousButton)).setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
     }
 
     public static void setForwardButtonImage(View view, Drawable drawable) {
@@ -90,7 +91,7 @@ public final class AppearanceUtils {
             return;
         }
 
-        ((ImageButton) view.findViewById(R.id.forwardButton)).setImageDrawable(drawable);
+        ((Button) view.findViewById(R.id.forwardButton)).setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
     }
 
     public static void setHeaderVisibility(View view, int visibility) {
