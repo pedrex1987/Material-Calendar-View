@@ -124,7 +124,23 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
     }
 
     private boolean isActiveDay(Calendar day) {
-        return !mCalendarProperties.getDisabledDays().contains(day);
+        boolean isDifferent = true;
+
+        int daySelected = day.get(Calendar.DAY_OF_MONTH);
+        int monthSelected = day.get(Calendar.MONTH);
+        int yearSelected = day.get(Calendar.YEAR);
+
+        for (Calendar disabledDay : mCalendarProperties.getDisabledDays()) {
+            int dayDisabledDay = disabledDay.get(Calendar.DAY_OF_MONTH);
+            int monthDisabledDay = disabledDay.get(Calendar.MONTH);
+            int yearDisabledDay = disabledDay.get(Calendar.YEAR);
+
+            if (daySelected == dayDisabledDay && monthSelected == monthDisabledDay && yearDisabledDay == yearSelected) {
+                isDifferent = false;
+            }
+        }
+
+        return isDifferent;
     }
 
     private void loadIcon(ImageView dayIcon, Calendar day) {

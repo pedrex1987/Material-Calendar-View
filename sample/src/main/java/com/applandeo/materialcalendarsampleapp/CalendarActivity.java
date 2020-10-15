@@ -69,6 +69,8 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendarView.setDisabledDays(getDisabledDays());
 
+        List<Calendar> ddd = calendarView.getDisabledDays();
+
         calendarView.setOnDayClickListener(eventDay ->
                 Toast.makeText(getApplicationContext(),
                         eventDay.getCalendar().getTime().toString() + " "
@@ -94,7 +96,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private List<Calendar> getDisabledDays() {
         Calendar firstDisabled = DateUtils.getCalendar();
-        firstDisabled.add(Calendar.DAY_OF_MONTH, 2);
+        firstDisabled.add(Calendar.DAY_OF_MONTH, 4);
 
         Calendar secondDisabled = DateUtils.getCalendar();
         secondDisabled.add(Calendar.DAY_OF_MONTH, 1);
@@ -102,10 +104,14 @@ public class CalendarActivity extends AppCompatActivity {
         Calendar thirdDisabled = DateUtils.getCalendar();
         thirdDisabled.add(Calendar.DAY_OF_MONTH, 18);
 
+        Calendar four = DateUtils.getCalendar();
+        four.add(Calendar.DAY_OF_MONTH, 14);
+
         List<Calendar> calendars = new ArrayList<>();
         calendars.add(firstDisabled);
         calendars.add(secondDisabled);
         calendars.add(thirdDisabled);
+        calendars.add(four);
         return calendars;
     }
 

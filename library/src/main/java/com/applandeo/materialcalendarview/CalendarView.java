@@ -490,6 +490,11 @@ public class CalendarView extends LinearLayout {
         mCalendarProperties.setDisabledDays(disabledDays);
     }
 
+    public List<Calendar> getDisabledDays() {
+        return mCalendarProperties.getDisabledDays();
+    }
+
+
     public void setHighlightedDays(List<Calendar> highlightedDays) {
         mCalendarProperties.setHighlightedDays(highlightedDays);
     }
