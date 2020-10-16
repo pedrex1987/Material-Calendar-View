@@ -2,9 +2,10 @@ package com.applandeo.materialcalendarsampleapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.applandeo.materialcalendarsampleapp.utils.DrawableUtils;
 import com.applandeo.materialcalendarview.CalendarView;
@@ -69,7 +70,16 @@ public class CalendarActivity extends AppCompatActivity {
 
         calendarView.setDisabledDays(getDisabledDays());
 
-        List<Calendar> ddd = calendarView.getDisabledDays();
+//        List<Calendar> freeDates = new ArrayList<>();
+//        for (int i = 0; i < 30; i++) {
+//            i++;
+//            i++;
+//            Calendar c = Calendar.getInstance();
+//            c.set(2020, 9, i + 16);
+//            freeDates.add(c);
+//        }
+//
+//        calendarView.setAvailableDates(freeDates);
 
         calendarView.setOnDayClickListener(eventDay ->
                 Toast.makeText(getApplicationContext(),
@@ -80,11 +90,23 @@ public class CalendarActivity extends AppCompatActivity {
         Button setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateButton.setOnClickListener(v -> {
             try {
-                Calendar randomCalendar = getRandomCalendar();
-                String text = randomCalendar.getTime().toString();
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
-                calendarView.setDate(randomCalendar);
-            } catch (OutOfDateRangeException exception) {
+//                Calendar randomCalendar = getRandomCalendar();
+//                String text = randomCalendar.getTime().toString();
+//                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+//                calendarView.setDate(randomCalendar);
+
+                List<Calendar> freeDates = new ArrayList<>();
+                for (int i = 0; i < 30; i++) {
+                    i++;
+                    Calendar c = Calendar.getInstance();
+                    c.set(2020, 9, i + 22);
+                    freeDates.add(c);
+                }
+
+                calendarView.setAvailableDates(freeDates);
+                calendarView.setDate(freeDates.get(1));
+
+            } catch (Exception exception) {
                 exception.printStackTrace();
 
                 Toast.makeText(getApplicationContext(),

@@ -73,7 +73,9 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
 
         if (isAnotherDaySelected(previousSelectedDay, day)) {
             selectDay(dayLabel, day);
-            reverseUnselectedColor(previousSelectedDay);
+            if (previousSelectedDay != null) {
+                reverseUnselectedColor(previousSelectedDay);
+            }
         }
     }
 
@@ -151,7 +153,7 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
         return day.get(Calendar.MONTH) == mPageMonth && isBetweenMinAndMax(day);
     }
 
-    private boolean isActiveDay(Calendar day) {
+    boolean isActiveDay(Calendar day) {
         boolean isDifferent = true;
 
         int daySelected = day.get(Calendar.DAY_OF_MONTH);
@@ -185,6 +187,10 @@ public class DayRowClickListener implements AdapterView.OnItemClickListener {
     }
 
     private boolean isAnotherDaySelected(SelectedDay selectedDay, Calendar day) {
+        if (selectedDay == null && isCurrentMonthDay(day) && isActiveDay(day)) {
+            return true;
+        }
+
         return selectedDay != null && !day.equals(selectedDay.getCalendar())
                 && isCurrentMonthDay(day) && isActiveDay(day);
     }

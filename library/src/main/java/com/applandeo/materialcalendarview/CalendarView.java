@@ -17,6 +17,7 @@ import com.applandeo.materialcalendarview.adapters.CalendarPageAdapter;
 import com.applandeo.materialcalendarview.exceptions.ErrorsMessages;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.applandeo.materialcalendarview.extensions.CalendarViewPager;
+import com.applandeo.materialcalendarview.extensions.ListExtensionsKt;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.applandeo.materialcalendarview.utils.AppearanceUtils;
@@ -278,13 +279,13 @@ public class CalendarView extends LinearLayout {
         mViewPager.setAdapter(mCalendarPageAdapter);
         mViewPager.addOnPageChangeListener(onPageChangeListener);
 
-        setUpCalendarPosition(Calendar.getInstance());
+        setUpCalendarPosition(Calendar.getInstance(), false);
     }
 
-    private void setUpCalendarPosition(Calendar calendar) {
+    private void setUpCalendarPosition(Calendar calendar, Boolean isDaySelected) {
         DateUtils.setMidnight(calendar);
 
-        if (mCalendarProperties.getCalendarType() == CalendarView.ONE_DAY_PICKER) {
+        if (mCalendarProperties.getCalendarType() == CalendarView.ONE_DAY_PICKER && isDaySelected) {
             mCalendarProperties.setSelectedDay(calendar);
         }
 
@@ -388,7 +389,7 @@ public class CalendarView extends LinearLayout {
             throw new OutOfDateRangeException(ErrorsMessages.OUT_OF_RANGE_MAX);
         }
 
-        setUpCalendarPosition(date);
+        setUpCalendarPosition(date, true);
 
         mCurrentMonthLabel.setText(DateUtils.getMonthAndYearDateSpannable(mContext, date));
         mCalendarPageAdapter.notifyDataSetChanged();
@@ -490,10 +491,27 @@ public class CalendarView extends LinearLayout {
         mCalendarProperties.setDisabledDays(disabledDays);
     }
 
-    public List<Calendar> getDisabledDays() {
-        return mCalendarProperties.getDisabledDays();
-    }
+    public void setAvailableDates(List<Calendar> dates) {
 
+        List<Calendar> formattedDates = mCalendarProperties.getFormattedDays(dates);
+
+        if (formattedDates.isEmpty()) {
+            Calendar today = Calendar.getInstance();
+            setMaximumDate(today);
+            setMaximumDate(today);
+        } else {
+            setMinimumDate(ListExtensionsKt.getFirstDate(formattedDates));
+            Calendar maxDate = ListExtensionsKt.getLastDate(dates);
+            Calendar maxDateApplied = Calendar.getInstance();
+            maxDateApplied.setTime(maxDate.getTime());
+            maxDateApplied.add(Calendar.DAY_OF_MONTH, 1);
+            setMaximumDate(maxDateApplied);
+        }
+
+        mCalendarProperties.setAvailableDates(formattedDates);
+
+        initCalendar();
+    }
 
     public void setHighlightedDays(List<Calendar> highlightedDays) {
         mCalendarProperties.setHighlightedDays(highlightedDays);

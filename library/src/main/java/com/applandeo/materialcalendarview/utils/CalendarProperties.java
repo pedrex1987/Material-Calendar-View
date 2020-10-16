@@ -10,6 +10,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.R;
 import com.applandeo.materialcalendarview.exceptions.ErrorsMessages;
 import com.applandeo.materialcalendarview.exceptions.UnsupportedMethodsException;
+import com.applandeo.materialcalendarview.extensions.ListExtensionsKt;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
@@ -267,6 +268,36 @@ public class CalendarProperties {
                 }).toList();
     }
 
+    public List<Calendar> getFormattedDays(List<Calendar> list) {
+        return Stream.of(list)
+                .map(calendar -> {
+                    DateUtils.setMidnight(calendar);
+                    return calendar;
+                }).toList();
+    }
+
+    public void setAvailableDates(List<Calendar> availableDates) {
+        clearSelectedDays();
+        mDisabledDays.clear();
+
+        List<Calendar> list = getFormattedDays(availableDates);
+
+        Calendar startDate = getMinimumDate();
+        Calendar endDate = getMaximumDate();
+
+        List<Calendar> intervalDates = ListExtensionsKt.createIntervalDates(startDate, endDate);
+        List<Calendar> intervalDatesFormatted = getFormattedDays(intervalDates);
+
+        intervalDatesFormatted.removeAll(list);
+
+        setDisabledDays(intervalDatesFormatted);
+
+    }
+
+    public void clearSelectedDays() {
+        mSelectedDays.clear();
+    }
+
     public List<Calendar> getHighlightedDays() {
         return mHighlightedDays;
     }
@@ -288,7 +319,7 @@ public class CalendarProperties {
     }
 
     public void setSelectedDay(SelectedDay selectedDay) {
-        mSelectedDays.clear();
+        clearSelectedDays();
         mSelectedDays.add(selectedDay);
     }
 

@@ -86,7 +86,7 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
             Stream.of(mCalendarPageAdapter.getSelectedDays())
                     .filter(selectedDay -> selectedDay.getCalendar().equals(day))
                     .findFirst().ifPresent(selectedDay -> selectedDay.setView(dayLabel));
-
+            mCalendarPageAdapter.setSelectedDay(new SelectedDay(dayLabel, day));
             DayColorsUtils.setSelectedDayColors(dayLabel, mCalendarProperties);
             return;
         }
@@ -109,8 +109,23 @@ class CalendarDayAdapter extends ArrayAdapter<Date> {
     }
 
     private boolean isSelectedDay(Calendar day) {
-        return mCalendarProperties.getCalendarType() != CalendarView.CLASSIC && day.get(Calendar.MONTH) == mPageMonth
-                && mCalendarPageAdapter.getSelectedDays().contains(new SelectedDay(day));
+        boolean isDifferent = false;
+
+        int daySelected = day.get(Calendar.DAY_OF_MONTH);
+        int monthSelected = day.get(Calendar.MONTH);
+        int yearSelected = day.get(Calendar.YEAR);
+
+        for (SelectedDay days : mCalendarProperties.getSelectedDays()) {
+            int dayDisabledDay = days.getCalendar().get(Calendar.DAY_OF_MONTH);
+            int monthDisabledDay = days.getCalendar().get(Calendar.MONTH);
+            int yearDisabledDay = days.getCalendar().get(Calendar.YEAR);
+
+            if (daySelected == dayDisabledDay && monthSelected == monthDisabledDay && yearDisabledDay == yearSelected) {
+                isDifferent = true;
+            }
+        }
+
+        return isDifferent;
     }
 
     private boolean isEventDayWithLabelColor(Calendar day) {
