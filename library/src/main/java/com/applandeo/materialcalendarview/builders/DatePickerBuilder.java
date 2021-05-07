@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.extensions.ListExtensionsKt;
 import com.applandeo.materialcalendarview.listeners.OnCalendarPageChangeListener;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.applandeo.materialcalendarview.utils.CalendarProperties;
@@ -649,5 +650,27 @@ public class DatePickerBuilder {
       }
 
       return this;
+    }
+
+    public DatePickerBuilder setAvailableDates(List<Calendar> dates) {
+
+        List<Calendar> formattedDates = mCalendarProperties.getFormattedDays(dates);
+
+        if (formattedDates.isEmpty()) {
+            Calendar today = Calendar.getInstance();
+            setMaximumDate(today);
+            setMaximumDate(today);
+        } else {
+            setMinimumDate(ListExtensionsKt.getFirstDate(formattedDates));
+            Calendar maxDate = ListExtensionsKt.getLastDate(dates);
+            Calendar maxDateApplied = Calendar.getInstance();
+            maxDateApplied.setTime(maxDate.getTime());
+            maxDateApplied.add(Calendar.DAY_OF_MONTH, 1);
+            setMaximumDate(maxDateApplied);
+        }
+
+        mCalendarProperties.setAvailableDates(formattedDates);
+
+        return this;
     }
 }
