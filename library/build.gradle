@@ -18,6 +18,8 @@ android {
         versionCode 1
         versionName PUBLISH_VERSION
 
+        vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
